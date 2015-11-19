@@ -54,23 +54,23 @@
                 <ul class="nav navbar-nav navbar-right">
                     {% if user.is_authenticated %}
                       <li>
-                        <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>      
+                        <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
                       </li>
                       <li>
                         <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
                       </li>
                       <li>
-                        <a href="about.html">About</a>
+                        <a href="#about">About</a>
                       </li>
                       <li>
-                        <a href="contact.html">Contact</a>
+                        <a href="#contact">Contact</a>
                       </li>
                       <li>
                         <a href="{% url 'django.contrib.auth.views.logout' %}">Log out</a>
                       </li>
-                    {% else %}  
+                    {% else %}
                       <li>
-                        <a href="{% url 'django.contrib.auth.views.login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>                
+                        <a href="{% url 'django.contrib.auth.views.login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
                       </li>
                       <li>
                         <a href="#about">About</a>
@@ -141,9 +141,9 @@
                     <p class="copyright text-muted">Copyright &copy; Rinku Rajole 2015</p>
                     <br>
                     {% if user.is_authenticated %}
-                    <center>LoggedIn User :- <h5>{{ user.username | upper }}</h5><center> 
+                    <center>LoggedIn User :- <h5>{{ user.username | upper }}</h5><center>
                     {% else %}
-                    <center>No one logged In , Please Log In <center> 
+                    <center>No one logged In , Please Log In <center>
                     {% endif %}
                 </div>
             </div>
