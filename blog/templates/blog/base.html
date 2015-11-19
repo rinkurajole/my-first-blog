@@ -70,7 +70,10 @@
                       </li>
                     {% else %}
                       <li>
-                        <a href="{% url 'django.contrib.auth.views.login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+                        <a href="#register"><span class="glyphicon glyphicon-user"></span>Register</a>
+                      </li>
+                      <li>
+                        <a href="{% url 'django.contrib.auth.views.login' %}"><span class="glyphicon glyphicon-lock"></span>LogIn</a>
                       </li>
                       <li>
                         <a href="#about">About</a>
@@ -112,6 +115,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    {% if user.is_authenticated %}
+                    <center>LoggedIn User :- <h5>{{ user.username | upper }}</h5><center>
+                    {% else %}
+                    <center>No one logged In , Please Log In <center>
+                    {% endif %}
+                    <br>
                     <ul class="list-inline text-center">
                         <li>
                             <a href="#twitter">
