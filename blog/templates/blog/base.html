@@ -54,7 +54,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     {% if user.is_authenticated %}
                       <li>
-                        <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>      
+                        <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
                       </li>
                       <li>
                         <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
@@ -68,12 +68,12 @@
                       <li>
                         <a href="{% url 'django.contrib.auth.views.logout' %}">Log out</a>
                       </li>
-                    {% else %}  
+                    {% else %}
                       <li>
                         <a href="{% url 'register' %}"><span class="glyphicon glyphicon-user"></span>Register</a> 
                       </li>
                       <li>
-                        <a href="{% url 'django.contrib.auth.views.login' %}"><span class="glyphicon glyphicon-lock"></span>LogIn</a>                
+                        <a href="{% url 'django.contrib.auth.views.login' %}"><span class="glyphicon glyphicon-lock"></span>LogIn</a>
                       </li>
                       <li>
                         <a href="#about">About</a>
@@ -116,9 +116,9 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     {% if user.is_authenticated %}
-                    <center>LoggedIn User :- <h5>{{ user.username | upper }}</h5><center> 
+                    <center>LoggedIn User :- <h5>{{ user.username | upper }}</h5><center>
                     {% else %}
-                    <center>No one logged In , Please Log In <center> 
+                    <center>No one logged In , Please Log In <center>
                     {% endif %}
                     <br>
                     <ul class="list-inline text-center">
