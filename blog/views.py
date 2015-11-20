@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from .models import Post, Comment
-from .forms import PostForm, CommentForm
+from django.contrib.auth.models import User
+from .forms import PostForm, CommentForm, UserForm
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 
@@ -28,6 +29,23 @@ def post_new(request):
     else:
         form = PostForm()
     return render(request, 'blog/post_edit.html', {'form': form})
+
+def register(request):
+    if request.method == "POST":
+        user = UserForm(request.POST)
+        if user.is_valid() and (request.POST['password'] == request.POST['confirmpassword']):
+            newuser = user.save()
+            newpass = request.POST['password']
+            absuser = User.objects.get(username__exact = request.POST['username'])
+            absuser.set_password(newpass)
+            absuser.is_active = True
+            absuser.save()
+            return redirect('django.contrib.auth.views.login')
+        else:
+            raise ValueError("password not matched")
+    else:
+        form = UserForm()
+    return render(request, 'registration/register.html', {'form': form})        
 
 @login_required
 def post_edit(request, pk):
