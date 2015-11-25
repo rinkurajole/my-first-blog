@@ -1,4 +1,5 @@
 {% extends "blog/base.html" %}
+{% load staticfiles %}
 
 {% block content %}
 <div class="container">
@@ -8,28 +9,91 @@
 			  	<div class="panel-heading">
 			    	<h3 class="panel-title">Please Register</h3>
 			 	</div>
-			  	<div class="panel-body">
-			    	<form method="post" role="form" action="{% url 'register' %}">
+			 	<div class="panel-body">
+			    	<form  method="post" action="{% url 'register' %}" name="register" id="register" role="form">
 			    	{% csrf_token %}
-                    <fieldset>
-			    	  	<div class="form-group">
-			    		    <input class="form-control" placeholder="UserID" name="username" type="text">
-			    		</div>
-			    		<div class="form-group">
-			    			<input class="form-control" placeholder="Password" name="password" type="password" value="">
-			    		</div>
-			    		<div class="form-group">
-			    			<input class="form-control" placeholder="Confirm Password" name="confirmpassword" type="password" value="">
-			    		</div>
-						{% if form.errors %}
-							<p>Something went wrong.Try again.</p>
-						{% endif %}
-			    		<center><input class="btn btn-sm btn-success" type="submit" value="Register"></center>
-			    	</fieldset>
-			      	</form>
-			    </div>
+                    	<h5><fieldset>
+			    	  		<div class="form-group">
+		      					<input name="username" type="text" class="form-control" id="username" placeholder="Username(ex. rajrajole)"required autofocus>
+		    				</div>
+		  					<div class="form-group">
+		    					<input name="password" type="password" class="form-control" id="password" placeholder="Password">
+		    				</div>
+		  					<div class="form-group">
+		      					<input name="confirmPassword" type="password" class="form-control" id="confirmPassword" placeholder=" Retype Password">
+		    				</div>
+		      				{% if form.errors %}
+								<p> {{ form.errors }} </p>
+							{% endif %}
+							<div class="form-group">
+			    				<center><input class="btn btn-sm btn-success" type="submit" value="Register"></center>
+		    				</div>
+		    			</fieldset></h5>
+					</form>
+				</div>	
 			</div>
 		</div>
 	</div>
 </div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/formvalidation/0.6.1/css/formValidation.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/formvalidation/0.6.1/js/formValidation.js"></script>
+<script src="{% static "js/framework/bootstrap.js" %}"></script>
+<script type="text/javascript">
+		$(document).ready(function() {
+			$('#register').formValidation({
+				framework: 'bootstrap',
+        		message: 'This value is not valid',
+        		icon: {
+            		valid: 'glyphicon glyphicon-ok',
+            		invalid: 'glyphicon glyphicon-remove',
+            		validating: 'glyphicon glyphicon-refresh'
+     			},
+        		fields: {
+            		username: {
+                		message: 'The username is not valid',
+                		validators: {
+                    	notEmpty: {
+                        	message: 'The username is required and can\'t be empty'
+            	 	   		},
+            		 	stringLength: {
+                        	min: 6,
+                        	max: 30,
+                        	message: 'The username must be more than 6 and less than 30 characters long'
+                			},
+                    	regexp: {
+                        	regexp: /^[a-zA-Z0-9_\.]+$/,
+                        	message: 'The username can only consist of alphabetical, number, dot and underscore'
+                   			}
+             	   		}
+            		},
+            		password: {
+                		validators: {
+                    		notEmpty: {
+                        	message: 'The password is required and can\'t be empty'
+                    		},
+                    	stringLength: {
+                        	min: 6,
+                      	 	max: 30,
+                    		},
+                    	regexp: {
+                        	regexp: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,}$/,
+                        	message: 'must contain at least 1 Alphabet, 1 Number and 1 Special Character'
+                	    	}
+                		}
+            		},
+            	confirmPassword: {
+                	validators: {
+                    	notEmpty: {
+                        message: 'The confirm password is required and can\'t be empty'
+                    	},
+                    	identical: {
+                        	field: 'password',
+                        	message: 'The password and its confirm are not the same'
+                    	}
+                	}
+            	}
+			}
+		});
+	});
+</script>
 {% endblock %}

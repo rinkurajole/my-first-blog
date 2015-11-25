@@ -10,8 +10,10 @@
   				{% else %}
   				<a class="btn btn-default" href="{% url 'blog.views.post_publish' pk=post.pk %}">Publish</a>
   				{% endif %}
-  				<a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
- 				<a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+          {% if user.username == post.author.username or user.is_superuser %}
+  				  <a class="btn btn-success" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+ 				    <a class="btn btn-danger" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+          {% endif %}
   			{% else %}
   				<a href="{% url 'django.contrib.auth.views.login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
   			{% endif %}

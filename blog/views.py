@@ -4,6 +4,7 @@ from .models import Post, Comment
 from django.contrib.auth.models import User
 from .forms import PostForm, CommentForm, UserForm
 from django.shortcuts import redirect
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 
 
@@ -33,8 +34,8 @@ def post_new(request):
 def register(request):
     if request.method == "POST":
         user = UserForm(request.POST)
-        if user.is_valid() and (request.POST['password'] == request.POST['confirmpassword']):
-            newuser = user.save()
+        if user.is_valid():
+            user.save()
             newpass = request.POST['password']
             absuser = User.objects.get(username__exact = request.POST['username'])
             absuser.set_password(newpass)
@@ -42,10 +43,11 @@ def register(request):
             absuser.save()
             return redirect('django.contrib.auth.views.login')
         else:
-            raise ValueError("password not matched")
-    else:
+            html = render(request, 'registration/register.html', {'form': user})
+            return HttpResponse(html)
+    elif request.method == "GET":
         form = UserForm()
-    return render(request, 'registration/register.html', {'form': form})        
+        return render(request, 'registration/register.html', {'form': form})
 
 @login_required
 def post_edit(request, pk):
@@ -105,3 +107,4 @@ def comment_remove(request, pk):
     comment.delete()
     return redirect('blog.views.post_detail', pk=post_pk)
 # Create your views here.
+ 
