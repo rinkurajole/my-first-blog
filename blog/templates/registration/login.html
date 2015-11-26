@@ -20,7 +20,7 @@
 			    			<input class="form-control" placeholder="Password" name="password" type="password" value="" required>
 			    		</div>
 						{% if form.errors %}
-							<p>Something went wrong.Try again.</p>
+							<p>Username/Password not matched.Try again.</p>
 						{% endif %}
 			    		<center><input class="btn btn-sm btn-success" type="submit" value="Login"></center>
 			    		<input class="btn btn-lg btn-success btn-block" type="hidden" name="next" value="{{ next }}" />
