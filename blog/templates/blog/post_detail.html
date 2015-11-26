@@ -7,7 +7,7 @@
   			{% if user.is_authenticated %}
   				{% if post.published_date %}
   					{{ post.published_date }}
-  				{% else %}
+  				{% elif user.is_superuser %}
   				<a class="btn btn-default" href="{% url 'blog.views.post_publish' pk=post.pk %}">Publish</a>
   				{% endif %}
           {% if user.username == post.author.username or user.is_superuser %}
@@ -26,10 +26,9 @@
     			<div class="comment">
         			<div class="date">
             			{{ comment.created_date }}
-            			{% if not comment.approved_comment %}
+                  {% if comment.author == user.username or user.is_superuser %}
                 			<a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
-                			<a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
-            			{% endif %}
+                  {% endif %}
         			</div>
         			<strong>{{ comment.author }}</strong>
         			<p>{{ comment.text|linebreaks }}</p>
@@ -42,7 +41,7 @@
           <form  method="post" action="{% url 'add_comment_to_post' pk=post.pk %}" role="form">
           {% csrf_token %}
             <div class="form-group">
-              <textarea class="form-control input-lg" name="text" rows="1" autofocus="" placeholder="comment here.." required></textarea>
+              <textarea class="form-control input-lg" name="text" rows="1" placeholder="comment here.." required></textarea>
             </div>
             <div class="form-group">
               <input class="btn btn-primary btn-sm" type="submit" value="Comment"/>

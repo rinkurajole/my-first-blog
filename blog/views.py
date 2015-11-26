@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from .forms import PostForm, CommentForm, UserForm
 from django.shortcuts import redirect
 from django.http import HttpResponse
+from django.contrib.auth.views import login
 from django.contrib.auth.decorators import login_required
 
 
@@ -24,14 +25,23 @@ def post_new(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            post.published_date = timezone.now()
+            if request.user.is_superuser():
+                post.published_date = timezone.now()
             post.save()
             return redirect('blog.views.post_detail', pk=post.pk)
     else:
         form = PostForm()
     return render(request, 'blog/post_edit.html', {'form': form})
 
+def user_login(request, *args, **kwargs):
+    if request.user.is_authenticated():
+        return redirect('blog.views.post_list')
+    else:
+        return login(request, *args, **kwargs)
+
 def register(request):
+    if request.user.is_authenticated():
+        return redirect('blog.views.post_list')
     if request.method == "POST":
         user = UserForm(request.POST)
         if user.is_valid():
@@ -41,7 +51,7 @@ def register(request):
             absuser.set_password(newpass)
             absuser.is_active = True
             absuser.save()
-            return redirect('django.contrib.auth.views.login')
+            return redirect('blog.views.user_login')
         else:
             html = render(request, 'registration/register.html', {'form': user})
             return HttpResponse(html)
@@ -81,23 +91,18 @@ def post_remove(request, pk):
     post.delete()
     return redirect('blog.views.post_list')
 
+@login_required
 def add_comment_to_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
         form = CommentForm(request.POST)
-        print(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.author = request.user
             comment.post = post
             comment.save()
+            comment.approve()
             return redirect('blog.views.post_detail', pk=post.pk)
-
-@login_required
-def comment_approve(request, pk):
-    comment = get_object_or_404(Comment, pk=pk)
-    comment.approve()
-    return redirect('blog.views.post_detail', pk=comment.post.pk)
 
 @login_required
 def comment_remove(request, pk):

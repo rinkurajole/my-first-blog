@@ -10,7 +10,7 @@
 			    	<h3 class="panel-title">Please sign in</h3>
 			 	</div>
 			  	<div class="panel-body">
-			    	<form method="post" role="form" name="login" id="login" action="{% url 'django.contrib.auth.views.login' %}">
+			    	<form method="post" role="form" name="login" id="login" action="{% url 'login' %}">
 			    	{% csrf_token %}
                     <h5><fieldset>
 			    	  	<div class="form-group">

@@ -11,12 +11,22 @@
 			  	<div class="panel-body">
 					<form  method="post" action="{% url 'post_new'%}" role="form">
     					{% csrf_token %}
-   						<div class="form-group">
-        					<input type="text" class="form-control" name="title" autofocus="" placeholder="Post Title" required/>
-    					</div>
-    					<div class="form-group">
-        					<textarea class="form-control input-lg" name="text" autofocus="" rows="7" placeholder="Post Content" required></textarea>
-    					</div>
+    					{% if form.title != None %}
+   							<div class="form-group">
+        						<input type="text" class="form-control" name="title" value="{{ form.title.value }}" required/>
+    						</div>
+    						<div class="form-group">
+        						<textarea class="form-control input-lg" name="text" rows="7" required>{{ form.text.value }}</textarea>
+    						</div>
+    					{% else %}
+    						<div class="form-group">
+        						<input type="text" class="form-control" name="title" autofocus="" placeholder="Post Title" required/>
+    						</div>
+    						<div class="form-group">
+        						<textarea class="form-control input-lg" name="text" autofocus="" rows="7" placeholder="Post Content" required></textarea>
+    						</div>
+    					{% endif %}
+    					<h6> *Post will be publish after admin approval. </h6>
     					<div class="form-group">
         					<input class="btn btn-primary btn-sm" type="submit" value="Post"/>
     					</div>

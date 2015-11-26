@@ -2,13 +2,17 @@
 
 {% block content %}
 {% for post in posts %}
-	<center>
-		<div class="post">
-  			<p class="date">created: {{ post.created_date|date:'d-m-Y' }}</p>
-  			<h1><a href="{% url 'blog.views.post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
-  			<p>{{ post.text|truncatechars:200 }}</p>
+	<div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+				<div class="post">
+  					<p class="date">created: {{ post.created_date|date:'d-m-Y' }}</p>
+  					<h1><a href="{% url 'blog.views.post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+  					<p>{{ post.text|truncatechars:200 }}</p>
+				</div>
+			</div>
 		</div>
-	</center>
+	</div>
 {% empty %}
 <div class="container">
 	<div class="row">
