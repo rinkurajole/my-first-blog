@@ -21,7 +21,6 @@
   			<p>{{ post.text|linebreaks }}</p>
 		</div>
 		<hr>
-		<a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
 		{% for comment in post.comments.all %}
     		{% if user.is_authenticated or comment.approved_comment %}
     			<div class="comment">
@@ -39,6 +38,16 @@
 			{% empty %}
     			<p>No comments here yet :-)</p>
 		{% endfor %}
+          <br><br>
+          <form  method="post" action="{% url 'add_comment_to_post' pk=post.pk %}" role="form">
+          {% csrf_token %}
+            <div class="form-group">
+              <textarea class="form-control input-lg" name="text" rows="1" autofocus="" placeholder="comment here.." required></textarea>
+            </div>
+            <div class="form-group">
+              <input class="btn btn-primary btn-sm" type="submit" value="Comment"/>
+            </div>
+          </form>
 	</div>
 </div>
 {% endblock %}
