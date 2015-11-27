@@ -1,23 +1,22 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-{% for post in posts %}
-	<div class="container">
+
+	<div class="container" style="background-color: #fff;">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            	{% for post in posts %}
 				<div class="post">
   					<p class="date">created: {{ post.created_date|date:'d-m-Y' }}</p>
   					<h1><a href="{% url 'blog.views.post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
   					<p>{{ post.text|truncatechars:200 }}</p>
 				</div>
+				{% endfor %}
+				{% if not posts %}
+			    	<p>No posts to publish :-)</p>
+				{% endif %}
 			</div>
+			<br>
 		</div>
 	</div>
-{% empty %}
-<div class="container">
-	<div class="row">
-    	<p>No posts to publish :-)</p>
-    </div>
-</div>
-{% endfor %}
 {% endblock %}

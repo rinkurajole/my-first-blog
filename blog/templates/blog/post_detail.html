@@ -1,26 +1,25 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-<div class="container">
+<div class="container" style="background-color: #fff;">
 	<div class="row">
+  <div class="col-lg-10 col-lg-offset-1 col-md-5 col-md-offset-1">
 		<div class="post">
-  			{% if user.is_authenticated %}
-  				{% if post.published_date %}
-  					{{ post.published_date }}
-  				{% elif user.is_superuser %}
-  				<a class="btn btn-default" href="{% url 'blog.views.post_publish' pk=post.pk %}">Publish</a>
-  				{% endif %}
-          {% if user.username == post.author.username or user.is_superuser %}
-  				  <a class="btn btn-success" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
- 				    <a class="btn btn-danger" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
-          {% endif %}
-  			{% else %}
-  				<a href="{% url 'django.contrib.auth.views.login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
-  			{% endif %}
   			<h1>{{ post.title }}</h1>
+        <p class="post-meta">Posted by <a href="#">{{ post.author }}</a> on {{ post.published_date }}</p>
+        {% if user.is_authenticated %}
+          {% if not post.published_date and user.is_superuser %}
+          <a class="btn btn-default" href="{% url 'blog.views.post_publish' pk=post.pk %}">Publish</a>
+          {% endif %}
+          {% if user.username == post.author.username or user.is_superuser %}
+            <a class="btn btn-success" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+            <a class="btn btn-danger" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+          {% endif %}
+        {% endif %}
   			<p>{{ post.text|linebreaks }}</p>
 		</div>
 		<hr>
+    <p><h3> Comments : </h3></p>
 		{% for comment in post.comments.all %}
     		{% if user.is_authenticated or comment.approved_comment %}
     			<div class="comment">
@@ -37,7 +36,7 @@
 			{% empty %}
     			<p>No comments here yet :-)</p>
 		{% endfor %}
-          <br><br>
+          <br>
           <form  method="post" action="{% url 'add_comment_to_post' pk=post.pk %}" role="form">
           {% csrf_token %}
             <div class="form-group">
@@ -47,6 +46,8 @@
               <input class="btn btn-primary btn-sm" type="submit" value="Comment"/>
             </div>
           </form>
+    <br><br>
+  </div>
 	</div>
 </div>
 {% endblock %}

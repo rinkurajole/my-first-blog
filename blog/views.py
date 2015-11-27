@@ -13,7 +13,6 @@ def post_list(request):
 	posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
 	return render(request, 'blog/post_list.html', {'posts': posts})
 
-@login_required
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'blog/post_detail.html', {'post': post})
@@ -25,7 +24,7 @@ def post_new(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            if request.user.is_superuser():
+            if request.user.is_superuser:
                 post.published_date = timezone.now()
             post.save()
             return redirect('blog.views.post_detail', pk=post.pk)
@@ -71,8 +70,7 @@ def post_edit(request, pk):
             post.save()
             return redirect('blog.views.post_detail', pk=post.pk)
     else:
-        form = PostForm(instance=post)
-    return render(request, 'blog/post_edit.html', {'form': form})
+        return render(request, 'blog/post_edit.html', {'post': post})
 
 @login_required
 def post_draft_list(request):
