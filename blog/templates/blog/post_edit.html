@@ -20,7 +20,7 @@
     							</div>
     							<h6> *Post will be publish after admin approval. </h6>
     							<div class="form-group">
-        							<input class="btn btn-primary btn-sm" type="submit" value="Post"/>
+        							<input class="btn btn-primary btn-sm" type="submit" onClick=”ga(‘send’, ‘event’, { eventCategory: ‘post ‘, eventAction: ‘Submit’, eventLabel: ‘Edit Post Form’});” value="Post"/>
     							</div>
 							</form>
     					{% else %}
@@ -34,7 +34,7 @@
     							</div>
     							<h6> *Post will be publish after admin approval. </h6>
     							<div class="form-group">
-        							<input class="btn btn-primary btn-sm" type="submit" value="Post"/>
+        							<input class="btn btn-primary btn-sm" type="submit" onClick=”ga(‘send’, ‘event’, { eventCategory: ‘post ‘, eventAction: ‘Submit’, eventLabel: ‘Edit Post Form’});” value="Post"/>
     							</div>
 							</form>
     					{% endif %}
