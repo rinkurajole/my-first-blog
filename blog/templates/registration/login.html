@@ -22,7 +22,7 @@
 						{% if form.errors %}
 							<p>Username/Password not matched.Try again.</p>
 						{% endif %}
-			    		<center><input class="btn btn-sm btn-success" type="submit" value="Login"></center>
+			    		<center><input class="btn btn-sm btn-success" type="submit" onClick="ga('send', hitType: 'event',eventCategory: 'Login', eventAction: 'Click', eventLabel: 'User clicked on Login button'});" value="Login"></center>
 			    		<input class="btn btn-lg btn-success btn-block" type="hidden" name="next" value="{{ next }}" />
 			    	</fieldset></h5>
 			      	</form>
